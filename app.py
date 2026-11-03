@@ -28,12 +28,37 @@ def load_data():
         save_data(INITIAL_DATA)
         return {"bootcamp": dict(INITIAL_DATA["bootcamp"]), "karvands": []}
 
-    if not isinstance(data, dict) or not isinstance(data.get("karvands"), list):
+    if (
+        not isinstance(data, dict)
+        or not isinstance(data.get("bootcamp"), dict)
+        or not isinstance(data.get("karvands"), list)
+        or any(not is_valid_karvand(karvand) for karvand in data["karvands"])
+    ):
         print("The JSON structure is invalid. Starting with empty data.")
         save_data(INITIAL_DATA)
         return {"bootcamp": dict(INITIAL_DATA["bootcamp"]), "karvands": []}
 
     return data
+
+
+def is_valid_karvand(karvand):
+    required_fields = {
+        "id",
+        "name",
+        "email",
+        "city",
+        "education",
+        "skills"
+    }
+    education_fields = {"degree", "field_of_study"}
+    return (
+        isinstance(karvand, dict)
+        and required_fields.issubset(karvand)
+        and isinstance(karvand["id"], int)
+        and isinstance(karvand["education"], dict)
+        and education_fields.issubset(karvand["education"])
+        and isinstance(karvand["skills"], list)
+    )
 
 
 def save_data(data):
@@ -75,17 +100,19 @@ def add_karvand():
             print("Skill name cannot be empty.")
             continue
 
-        skill_level = input(
-            "Enter the skill level (beginner, intermediate, advanced): "
-        ).strip().lower()
-        if skill_level not in {"beginner", "intermediate", "advanced"}:
+        while True:
+            skill_level = input(
+                "Enter the skill level (beginner, intermediate, advanced): "
+            ).strip().lower()
+            if skill_level in {"beginner", "intermediate", "advanced"}:
+                break
             print("Invalid skill level.")
-            continue
 
-        skill_point = input("Enter the skill point (0-100): ").strip()
-        if not skill_point.isdigit() or not 0 <= int(skill_point) <= 100:
+        while True:
+            skill_point = input("Enter the skill point (0-100): ").strip()
+            if skill_point.isdigit() and 0 <= int(skill_point) <= 100:
+                break
             print("Invalid skill point. Enter a number between 0 and 100.")
-            continue
 
         skills.append({
             "name": skill_name,
@@ -113,8 +140,8 @@ def print_karvand(karvand):
     print(f"Name: {karvand['name']}")
     print(f"Email: {karvand['email']}")
     print(f"City: {karvand['city']}")
-    print(f"Education: {karvand['education']}")
-    print(f"Field of study: {karvand['field_of_study']}")
+    print(f"Degree: {karvand['education']['degree']}")
+    print(f"Field of study: {karvand['education']['field_of_study']}")
     print("Skills:")
     for skill in karvand["skills"]:
         print(
@@ -182,12 +209,20 @@ def edit_karvand(karvand_id):
         ("name", "Name"),
         ("email", "Email"),
         ("city", "City"),
-        ("education", "Education"),
+        ("degree", "Degree"),
         ("field_of_study", "Field of study")
     ):
-        value = input(f"{label} [{karvand[field]}]: ").strip()
+        current_value = (
+            karvand["education"][field]
+            if field in {"degree", "field_of_study"}
+            else karvand[field]
+        )
+        value = input(f"{label} [{current_value}]: ").strip()
         if value:
-            karvand[field] = value
+            if field in {"degree", "field_of_study"}:
+                karvand["education"][field] = value
+            else:
+                karvand[field] = value
 
     save_data(data)
     print("Karvand information updated successfully!")

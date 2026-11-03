@@ -8,8 +8,10 @@
             "name": "Forough Zamani",
             "email": "fgh.test@gmail.com",
             "city": "karaj",
-            "education": "phd",
-            "field_of_study": "",
+            "education": {
+                "degree": "phd",
+                "field_of_study": ""
+            },
             "skills": [
                 {
                     "name": "python",
