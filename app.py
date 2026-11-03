@@ -213,8 +213,11 @@ def generate_report():
     print(f"Total Karvands: {total_karvands}")
     print(f"Total Skills: {total_skills}")
     print(f"Skills belonging to only one Karvand: {unique_skills}")
-    print(f"Average Skills per Karvand: {average_skills_per_karvand:.2f}")
-
+    print(f"Average Skills Points: {average_skills_points:.2f}")
+    print(f"City Distribution: {city_distribution}")
+    results = {"total_karvands": total_karvands, "total_skills": total_skills, "unique_skills": unique_skills, "average_skills_points": average_skills_points, "cities": city_distribution}
+    with open("data/report.json", "w") as file:
+        json.dump(results, file, indent=4)
 
 
 RUNNING = True
