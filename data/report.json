@@ -1,15 +1,13 @@
 {
     "total_karvands": 1,
-    "total_skills": 5,
+    "total_skills": 3,
+    "average_skill_score": 60.0,
+    "cities": [
+        "karaj"
+    ],
     "unique_skills": [
         "python",
         "django",
-        "sql",
-        "intermediate",
-        "finish"
-    ],
-    "average_skills_points": 54.0,
-    "cities": {
-        "karaj": 1
-    }
+        "sql"
+    ]
 }
