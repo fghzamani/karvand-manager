@@ -1,0 +1,35 @@
+{
+    "1": {
+        "name": "Forough Zamani",
+        "skills": [
+            {
+                "name": "python",
+                "level": "intermediate",
+                "point": 70
+            },
+            {
+                "name": "django",
+                "level": "intermediate",
+                "point": 60
+            },
+            {
+                "name": "sql",
+                "level": "beginner",
+                "point": 50
+            },
+            {
+                "name": "intermediate",
+                "level": "intermediate",
+                "point": 50
+            },
+            {
+                "name": "finish",
+                "level": "beginner",
+                "point": 40
+            }
+        ],
+        "email": "fgh.test@gmail.com",
+        "city": "karaj",
+        "education": "phd"
+    }
+}
