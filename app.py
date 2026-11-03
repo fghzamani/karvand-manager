@@ -61,7 +61,7 @@ def add_karvand():
     name = input("Enter the Karvand's full name: ").strip()
     email = input("Enter the Karvand's email: ").strip()
     city = input("Enter the Karvand's city: ").strip()
-    education = input("Enter the Karvand's latest education: ").strip()
+    degree = input("Enter the Karvand's latest degree: ").strip()
     field_of_study = input("Enter the Karvand's field of study: ").strip()
     skills = []
 
@@ -98,8 +98,10 @@ def add_karvand():
         "name": name,
         "email": email,
         "city": city,
-        "education": education,
-        "field_of_study": field_of_study,
+        "education":{
+            "degree": degree,
+            "field_of_study": field_of_study,
+        },
         "skills": skills
     })
     save_data(data)
@@ -224,7 +226,7 @@ def generate_report():
             sum(skill["point"] for skill in skills) / len(skills)
             if skills else 0
         ),
-        "cities": list(dict.fromkeys(karvand["city"] for karvand in karvands)),
+        "cities": list(dict.fromkeys(karvand["city"] for karvand in karvands)), # Get a list of unique cities
         "unique_skills": unique_skills
     }
 
